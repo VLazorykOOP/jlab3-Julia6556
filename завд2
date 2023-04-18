@@ -1,0 +1,73 @@
+bstract class Series {
+    protected int firstTerm;
+
+    public Series(int firstTerm) {
+        this.firstTerm = firstTerm;
+    }
+
+    public abstract int getNthTerm(int n);
+    // Абстрактний метод для отримання n-го члена послідовності
+
+    public abstract int getSum(int n);
+    // Абстрактний метод для отримання суми перших n членів послідовності
+}
+
+class Linear extends Series {
+    private int commonDifference;
+
+    public Linear(int firstTerm, int commonDifference) {
+        super(firstTerm);
+        this.commonDifference = commonDifference;
+    }
+
+    @Override
+    public int getNthTerm(int n) {
+        return firstTerm + (n - 1) * commonDifference;
+        // Формула для отримання n-го члена арифметичної послідовності
+    }
+
+    @Override
+    public int getSum(int n) {
+        return n * (2 * firstTerm + (n - 1) * commonDifference) / 2;
+        // Формула для отримання суми перших n членів арифметичної послідовності
+    }
+}
+
+class Exponential extends Series {
+    private int commonRatio;
+
+    public Exponential(int firstTerm, int commonRatio) {
+        super(firstTerm);
+        this.commonRatio = commonRatio;
+    }
+
+    @Override
+    public int getNthTerm(int n) {
+        return firstTerm * (int) Math.pow(commonRatio, n - 1);
+        // Формула для отримання n-го члена експоненційної послідовності
+    }
+
+    @Override
+    public int getSum(int n) {
+        return firstTerm * (1 - (int) Math.pow(commonRatio, n)) / (1 - commonRatio);
+        // Формула для отримання суми перших n членів експоненційної послідовності
+
+    }
+}
+
+public class SeriesDemo {
+    public static void main(String[] args) {
+        Linear1 linearSeries = new Linear1(2, 3);
+        // Створення об'єкта арифметичної послідовності зі значеннями початкового члена 2 та різниці 3
+        Exponential1 exponentialSeries = new Exponential1(2, 3);
+        // Створення об'єкта експоненційної послідовності зі значеннями початкового члена 2 та співвідношення 3
+
+        // Отримання вказаного члена послідовності
+        System.out.println("Linear Series - 5th term: " + linearSeries.getNthTerm(5));
+        System.out.println("Exponential Series - 5th term: " + exponentialSeries.getNthTerm(5));
+
+        // Отримання суми послідовності
+        System.out.println("Linear Series - sum of first 5 terms: " + linearSeries.getSum(5));
+        System.out.println("Exponential Series - sum of first 5 terms: " + exponentialSeries.getSum(5));
+    }
+}
